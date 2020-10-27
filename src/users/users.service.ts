@@ -7,6 +7,10 @@ const xlsx = require('node-xlsx').default;
 @Injectable()
 export class UsersService {
     constructor(@InjectRepository(User) private usersRepository: Repository<User>) { }
+
+    async getUsers(): Promise<User[]> {
+        return await this.usersRepository.find()
+}
     async createdUser(userDto: User): Promise<User> {
         console.log(userDto);
         const user = new User();

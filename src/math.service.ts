@@ -19,6 +19,6 @@ export class MathService {
     return this.client.send<number, number[]>('add', data);
   }
   public Add(data: any[]) {
-    return this.client.send<any, any[]>('Bash', data);
+    return this.client.send<any, any[]>('BashUsers', data);
   }
 }

@@ -6,9 +6,9 @@ export class User {
     @PrimaryGeneratedColumn()
     ID: number;
 
-    @Column({ length: 25 })
+    @Column({ length: 50 })
     Name:string;
 
-    @Column({length: 50}) 
+    @Column({length: 100}) 
     Email:string;
 }

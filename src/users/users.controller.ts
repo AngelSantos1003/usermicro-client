@@ -1,12 +1,13 @@
-import { Controller, Post ,Body, UploadedFile, UseInterceptors} from '@nestjs/common';
+import { Controller, Post ,Body, UploadedFile, UseInterceptors, Get} from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
 import { Response } from 'express';
 import { UsersService } from './users.service';
-import { CrearUser } from './dto/created-user';
+import { CrearUser, FileUploadDto } from './dto/created-user';
 import { User } from './user.entity';
 import {editFileName, imageFileFilter} from './../utils/file-upload.utils'
 import { MathService } from '../math.service';
+import { ApiProperty, ApiConsumes, ApiBody } from '@nestjs/swagger';
 
 @Controller('users')
 export class UsersController {
@@ -14,6 +15,18 @@ export class UsersController {
     @Post()
     create(@Body() user: CrearUser) {
         this.service.createdUser(user);
+    }
+    @Get()
+    async getUsers(){
+        // const dataResult = {
+        //     headerResponse:{
+        //         code:200,
+        //         message:'ok'
+        //     },
+        //     paylod: this.service.getUsers()
+        // }
+        // return res.json(dataResult);
+        return await this.service.getUsers();
     }
 
     @UseInterceptors(
@@ -26,6 +39,10 @@ export class UsersController {
         }),
       )
     @Post('/upload')
+    @ApiConsumes('multipart/form-data')
+@ApiBody({
+  type: FileUploadDto,
+})
     async Upload(@UploadedFile()  file){
         const response = {
             originalname: file.originalname,
